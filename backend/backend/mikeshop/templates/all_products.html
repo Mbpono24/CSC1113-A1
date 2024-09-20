@@ -1,4 +1,4 @@
-{%extends 'base.html'%}
+{% extends 'base.html' %}
 
 {%block title%} Products Page {%endblock%}
 
@@ -8,7 +8,7 @@
         <li>{{ p.name }} - €{{p.price}} - {{p.description}}</li>
         
          <a href="/products/{{p.id}}">
-             <img src="{{p.product_image.url}}" />
+             <img src="{{p.product_image.url}}" width="250" height="250">
              <a href="/products/{{p.id}}/">View</a>
         </a>
     {% endfor %}
