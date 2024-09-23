@@ -2,12 +2,11 @@
 
 {% block title %} Registration Form {% endblock %}
 
-
 {% block content %}
 <h2>Register Here!</h2>
-<form method="post">
+<form action="." method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.as_table }}
     <button type="submit">Sign Up</button>
 </form>
 

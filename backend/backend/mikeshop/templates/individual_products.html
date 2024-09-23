@@ -7,12 +7,11 @@
 {% if added %}
     <h1> Added to basket</h1>
 {% endif %}
-<h1>Name: {{product.name}} - €{{product.price}}</h1>
-<img src="{{product.product_image.url}}" />
+<h1>{{product.name}} - €{{product.price}}</h1>
+<img src="{{product.product_image.url}}" height="500" width="500">
 <p>
     {{product.description}}
     <a href="/addbasket/{{product.id}}" class="btn btn-primary">Buy €{{product.price}}</a>
-    <a href="/products/{{p.id}}/">View</a>
 </p>
 
 {% endblock %}

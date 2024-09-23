@@ -5,8 +5,8 @@
 {%block content%}
 <ul>
     {% for p in products  %}
+    <br>
         <li>{{ p.name }} - €{{p.price}} - {{p.description}}</li>
-        
          <a href="/products/{{p.id}}">
              <img src="{{p.product_image.url}}" width="250" height="250">
              <a href="/products/{{p.id}}/">View</a>
