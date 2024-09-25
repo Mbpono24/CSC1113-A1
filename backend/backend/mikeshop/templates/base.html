@@ -12,6 +12,7 @@
             {% if user.is_authenticated %}
             <a class="nav-link" href="#">Welcome, {{user.username}}</a>
             <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+            <a href="{% url 'view_basket' %}"class="btn btn-primary">View Basket</a>
             {% else %}
             <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
             <a href="{% url 'register' %}" class="btn btn-primary">Register</a>

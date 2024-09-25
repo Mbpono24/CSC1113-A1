@@ -24,8 +24,8 @@ class BasketItem(models.Model):
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
-def item_price(self):
-    return self.product_id.price * self.quantity
+    def item_price(self):
+        return self.product_id.price * self.quantity
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)

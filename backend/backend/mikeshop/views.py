@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .form import *
 from django.contrib.auth import login, logout
@@ -50,3 +50,82 @@ def add_to_basket(request, prodid):
         sbi.quantity = sbi.quantity+1
         sbi.save()
     return redirect("/products")
+
+
+
+def view_basket(request):
+    # Ensure the user is authenticated
+    if not request.user.is_authenticated:
+        return redirect('/login')  # Redirect to login page if not authenticated
+
+    # Get the user's active basket
+    basket = get_object_or_404(Basket, user_id=request.user, is_active=True)
+
+    # Get all items in the basket
+    basket_items = BasketItem.objects.filter(basket_id=basket)
+
+    # Calculate total price
+    total_price = sum(item.item_price() for item in basket_items)
+
+    # Pass the basket and basket items to the template
+    context = {
+        'basket': basket,
+        'basket_items': basket_items,
+        'total_price': total_price
+    }
+    return render(request, 'view_basket.html', context)
+
+
+def update_quantity(request, item_id):
+    if request.method == 'POST':
+        basket_item = get_object_or_404(BasketItem, id=item_id)
+        new_quantity = int(request.POST.get('quantity', 1))
+
+        if new_quantity > 0:
+            basket_item.quantity = new_quantity
+            basket_item.save()
+        return redirect('view_basket')
+    
+
+def remove_from_basket(request, item_id):
+    if request.method == 'POST':
+        basket_item = get_object_or_404(BasketItem, id=item_id)
+        basket_item.delete()
+        return redirect('view_basket')
+    
+
+def checkout(request):
+    # Get the user's active basket
+    basket = Basket.objects.filter(user_id=request.user, is_active=True).first()
+
+    if not basket:
+        return redirect('view_basket')
+
+    # Calculate the total price for the basket
+    total_price = sum(item.item_price() for item in basket.basketitem_set.all())
+
+    # Create the order
+    order = Order.objects.create(
+        user_id=request.user,  # ForeignKey to the user
+        basket_id=basket,      # ForeignKey to the basket
+        total_price=total_price
+    )
+
+    # Mark the basket as inactive
+    basket.is_active = False
+    basket.save()
+
+    # Redirect to the order confirmation page
+    return redirect('order_confirmation', order_id=order.id)
+
+
+def view_orders(request):
+    # Fetch the orders for the current user
+    orders = Order.objects.filter(user_id=request.user).order_by('-date_ordered')
+    return render(request, 'view_orders.html', {'orders': orders})
+
+
+def order_confirmation(request, order_id):
+    # Fetch the order based on the ID and the user
+    order = Order.objects.get(id=order_id, user_id=request.user)
+    return render(request, 'order_confirmation.html', {'order': order})
