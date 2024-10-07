@@ -3,6 +3,8 @@
 {% block title %}Your Basket{% endblock %}
 
 {% block content %}
+<br>
+<div class="center">
 <h1>Your Basket</h1>
 
 {% if basket_items %}
@@ -25,8 +27,8 @@
                     <button type="submit">Update</button>
                 </form>
             </td>
-            <td>${{ item.product_id.price }}</td>
-            <td>${{ item.total_price }}</td>
+            <td>€{{ item.product_id.price }}</td>
+            <td>€{{ item.item_price }}</td>
             <td>
                 <!-- Form to remove item from basket -->
                 <form action="{% url 'remove_from_basket' item.id %}" method="post">
@@ -37,15 +39,17 @@
         </tr>
         {% endfor %}
     </table>
+    <div class="center">
+    <p><strong>Total Price: €{{ total_price }}</strong></p>
 
-    <p><strong>Total Price: ${{ total_price }}</strong></p>
-
-    <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
 
 {% else %}
     <p>Your basket is empty.</p>
 {% endif %}
 
-<a href="{% url 'products' %}">Continue Shopping</a>
-
+<a href="{% url 'products' %}" class="btn btn-primary">Continue Shopping</a>
+<a href="{% url 'view_orders' %}" class="btn btn-primary">View All Orders</a>
+    </div>
+</div>
 {% endblock %}

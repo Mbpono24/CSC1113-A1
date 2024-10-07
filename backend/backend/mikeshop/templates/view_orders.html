@@ -17,15 +17,15 @@
         <tr>
             <td>{{ order.id }}</td>
             <td>{{ order.date_ordered }}</td>
-            <td>${{ order.total_price }}</td>
-            <td><a href="{% url 'order_confirmation' order.id %}">View Details</a></td>
+            <td>€{{ order.total_price }}</td>
+            <td><a href="{% url 'order_confirmation' order.id %}" class="btn btn-primary">View Details</a></td>
         </tr>
         {% endfor %}
     </table>
 {% else %}
     <p>You have no completed orders.</p>
 {% endif %}
-
-<a href="{% url 'products' %}">Continue Shopping</a>
-
+<div class="center">
+<a href="{% url 'products' %}" class="btn btn-primary">Continue Shopping</a>
+</div>
 {% endblock %}
