@@ -57,9 +57,11 @@ def view_basket(request):
     # Ensure the user is authenticated
     if not request.user.is_authenticated:
         return redirect('/login')  # Redirect to login page if not authenticated
-
     # Get the user's active basket
-    basket = get_object_or_404(Basket, user_id=request.user, is_active=True)
+    user = request.user
+    basket = Basket.objects.filter(user_id=user, is_active=True).first()
+    if basket is None:
+        return render(request, 'view_basket.html', {'empty': True})
 
     # Get all items in the basket
     basket_items = BasketItem.objects.filter(basket_id=basket)
@@ -106,12 +108,10 @@ def checkout(request):
 
     # Create the order
     order = Order.objects.create(
-        user_id=request.user,  # ForeignKey to the user
-        basket_id=basket,      # ForeignKey to the basket
+        user_id=request.user,
+        basket_id=basket,    
         total_price=total_price
     )
-
-    # Mark the basket as inactive
     basket.is_active = False
     basket.save()
 

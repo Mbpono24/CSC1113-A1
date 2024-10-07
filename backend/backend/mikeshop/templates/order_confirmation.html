@@ -13,7 +13,7 @@
 <h3>Order Items</h3>
 <ul>
     {% for item in order.basket_id.basketitem_set.all %}
-        <li>{{ item.product_id.name }} (x{{ item.quantity }}) - ${{ item.total_price }}</li>
+        <li>{{ item.product_id.name }} (x{{ item.quantity }}) - €{{ item.item_price }}</li>
     {% endfor %}
 </ul>
 
