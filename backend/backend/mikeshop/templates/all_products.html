@@ -3,14 +3,15 @@
 {%block title%} Products Page {%endblock%}
 
 {%block content%}
-<ul>
-    {% for p in products  %}
-    <br>
-        <li>{{ p.name }} - €{{p.price}} - {{p.description}}</li>
-         <a href="/products/{{p.id}}">
-             <img src="{{p.product_image.url}}" width="250" height="250">
-             <a href="/products/{{p.id}}/">View</a>
-        </a>
+<div class="product-list">
+    {% for p in products %}
+        <div class="product-box">
+            <img src="{{ p.product_image.url }}" alt="{{ p.name }}" class="product-image">
+            <h3>{{ p.name }}</h3>
+            <p>{{ p.description }}</p>
+            <p>€{{ p.price }}</p>
+            <a href="/products/{{ p.id }}" class="btn btn-primary">View</a>
+        </div>
     {% endfor %}
-</ul>
+</div>
 {%endblock%}
