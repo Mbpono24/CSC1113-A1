@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="center">
+<br>
 <h1>Order Confirmation</h1>
 <p>Thank you for your purchase! Here are the details of your order:</p>
 <br>
@@ -15,8 +16,10 @@
 <br>
     {% for item in order.basket_id.basketitem_set.all %}
         {{ item.product_id.name }} (x{{ item.quantity }}) - €{{ item.item_price }}
+        <br>
     {% endfor %}
 <br><br>
+<a href="{% url 'products' %}" class="btn btn-primary">Continue Shopping</a>
 <a href="{% url 'view_orders' %}"class="btn btn-primary">View All Orders</a>
 </div>
 {% endblock %}

@@ -67,6 +67,7 @@ nav p {
 
 nav a:hover {
     text-decoration: underline;
+    color: #218838;
 }
 
 /* Button Styling */

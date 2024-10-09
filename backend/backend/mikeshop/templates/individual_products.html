@@ -4,9 +4,6 @@
 
 
 {% block content %}
-{% if added %}
-    <h1> Added to basket</h1>
-{% endif %}
 <div class="product-box">
 <h1>{{product.name}} - €{{product.price}}</h1>
 <img src="{{ product.product_image.url }}" alt="{{ p.name }}" class="product-image">
@@ -15,5 +12,4 @@
     <a href="/addbasket/{{product.id}}" class="btn btn-primary">Buy €{{product.price}}</a>
 </p>
 </div>
-
 {% endblock %}

@@ -11,6 +11,7 @@
     <table>
         <tr>
             <th>Product</th>
+            <th>Name</th>
             <th>Quantity</th>
             <th>Price</th>
             <th>Total</th>
@@ -18,9 +19,10 @@
         </tr>
         {% for item in basket_items %}
         <tr>
+            <td><img src="{{ item.product_id.product_image.url }}" alt="{{ item.product_id.name }}" style="width: 75px; height: 75px;"/></td>
             <td>{{ item.product_id.name }}</td>
             <td>
-                <!-- Form to update quantity -->
+                <!-- Quantity Update -->
                 <form action="{% url 'update_quantity' item.id %}" method="post">
                     {% csrf_token %}
                     <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
@@ -30,7 +32,7 @@
             <td>€{{ item.product_id.price }}</td>
             <td>€{{ item.item_price }}</td>
             <td>
-                <!-- Form to remove item from basket -->
+                <!-- Remove Button -->
                 <form action="{% url 'remove_from_basket' item.id %}" method="post">
                     {% csrf_token %}
                     <button type="submit">Remove</button>
@@ -42,7 +44,7 @@
     <div class="center">
     <p><strong>Total Price: €{{ total_price }}</strong></p>
 
-    <a href="{% url 'checkout' %}" class="btn btn-primary">Proceed to Checkout</a>
+    <a href="{% url 'order' %}" class="btn btn-primary">Proceed to Checkout</a>
 
 {% else %}
     <p>Your basket is empty.</p>
